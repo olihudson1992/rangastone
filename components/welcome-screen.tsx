@@ -15,6 +15,7 @@ interface WelcomeScreenProps {
 // Browser compatibility detection
 function checkWebGLSupport(): boolean {
   try {
+    if (typeof document === "undefined") return false
     const canvas = document.createElement("canvas")
     const gl = canvas.getContext("webgl") || canvas.getContext("experimental-webgl")
     return !!gl
@@ -32,7 +33,7 @@ function checkBrowserCompatibility(): { isCompatible: boolean; issues: string[] 
   }
 
   // Check for modern browser features
-  if (!window.AudioContext && !(window as any).webkitAudioContext) {
+  if (typeof window !== "undefined" && !window.AudioContext && !(window as any).webkitAudioContext) {
     issues.push("Web Audio API not supported")
   }
 
